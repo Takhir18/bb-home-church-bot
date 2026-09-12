@@ -1,21 +1,31 @@
-
 import os, json, sqlite3, asyncio
 from pathlib import Path
-from fastapi import FastAPI, Request, HTTPException
+from contextlib import suppress
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
-from aiogram import Bot
+from aiogram import Bot, Dispatcher
+from aiogram.filters import CommandStart
+from aiogram.types import Message, InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 from dotenv import load_dotenv
 
 BASE = Path(__file__).resolve().parent
 load_dotenv(BASE.parent / ".env")
+
+TOKEN = os.getenv("BOT_TOKEN", "").strip()
+WEBAPP_URL = os.getenv("WEBAPP_URL", "").strip()
 
 app = FastAPI(title="Божья Благодать — Домашние церкви")
 app.mount("/static", StaticFiles(directory=BASE / "static"), name="static")
 
 groups = json.loads((BASE / "groups.json").read_text(encoding="utf-8"))
 DB = BASE.parent / "applications.db"
+
+bot: Bot | None = None
+dp: Dispatcher | None = None
+polling_task: asyncio.Task | None = None
+
 
 def init_db():
     con = sqlite3.connect(DB)
@@ -27,8 +37,12 @@ def init_db():
       comment TEXT,
       created_at TEXT DEFAULT CURRENT_TIMESTAMP
     )""")
-    con.commit(); con.close()
+    con.commit()
+    con.close()
+
+
 init_db()
+
 
 class Application(BaseModel):
     group_id: str
@@ -36,19 +50,69 @@ class Application(BaseModel):
     telegram: str = ""
     comment: str = ""
 
+
+async def start_handler(message: Message):
+    if not WEBAPP_URL:
+        await message.answer("Mini App пока не настроен. Попробуйте чуть позже.")
+        return
+
+    kb = InlineKeyboardMarkup(inline_keyboard=[[
+        InlineKeyboardButton(
+            text="🔥 Найти домашнюю церковь",
+            web_app=WebAppInfo(url=WEBAPP_URL),
+        )
+    ]])
+
+    await message.answer(
+        "Добро пожаловать в «Божью Благодать»!\n\n"
+        "Домашняя церковь — это место общения, духовного роста, ученичества и служения.\n\n"
+        "Нажмите кнопку ниже, чтобы найти подходящую домашнюю церковь.",
+        reply_markup=kb,
+    )
+
+
+@app.on_event("startup")
+async def startup_bot():
+    global bot, dp, polling_task
+
+    if not TOKEN:
+        print("BOT_TOKEN не задан — Telegram polling не запущен")
+        return
+
+    bot = Bot(TOKEN)
+    dp = Dispatcher()
+    dp.message.register(start_handler, CommandStart())
+    polling_task = asyncio.create_task(dp.start_polling(bot))
+    print("Telegram bot polling started")
+
+
+@app.on_event("shutdown")
+async def shutdown_bot():
+    global polling_task, bot
+
+    if polling_task:
+        polling_task.cancel()
+        with suppress(asyncio.CancelledError):
+            await polling_task
+
+    if bot:
+        await bot.session.close()
+
+
 @app.get("/")
 def index():
     return FileResponse(BASE / "static" / "index.html")
 
+
 @app.get("/api/groups")
 def api_groups():
-    # Exact private address is intentionally not sent to the general list UI.
-    public=[]
+    public = []
     for g in groups:
-        x=dict(g)
-        x["public_address"]=g["district"] + " район"
+        x = dict(g)
+        x["public_address"] = g["district"] + " район"
         public.append(x)
     return public
+
 
 @app.get("/api/groups/{group_id}")
 def api_group(group_id: str):
@@ -57,33 +121,40 @@ def api_group(group_id: str):
             return g
     raise HTTPException(404, "Group not found")
 
+
 @app.post("/api/applications")
 async def api_application(data: Application):
     if not data.name.strip():
         raise HTTPException(400, "Введите имя")
+
     group = next((g for g in groups if g["id"] == data.group_id), None)
     if not group:
         raise HTTPException(404, "Group not found")
-    con=sqlite3.connect(DB)
-    con.execute("INSERT INTO applications(group_id,name,telegram,comment) VALUES(?,?,?,?)",
-                (data.group_id,data.name.strip(),data.telegram.strip(),data.comment.strip()))
-    con.commit(); con.close()
 
-    token=os.getenv("BOT_TOKEN","").strip()
-    admin=os.getenv("ADMIN_CHAT_ID","").strip()
-    if token and admin:
+    con = sqlite3.connect(DB)
+    con.execute(
+        "INSERT INTO applications(group_id,name,telegram,comment) VALUES(?,?,?,?)",
+        (data.group_id, data.name.strip(), data.telegram.strip(), data.comment.strip()),
+    )
+    con.commit()
+    con.close()
+
+    admin = os.getenv("ADMIN_CHAT_ID", "").strip()
+    if bot and admin:
         try:
-            bot=Bot(token=token)
-            text=(f"🔥 Новая заявка в домашнюю церковь\n\n"
-                  f"Группа: {group['name']}\nЛидеры: {group['leaders']}\n"
-                  f"Имя: {data.name}\nTelegram: {data.telegram or '—'}\n"
-                  f"Комментарий: {data.comment or '—'}")
+            text = (
+                f"🔥 Новая заявка в домашнюю церковь\n\n"
+                f"Группа: {group['name']}\nЛидеры: {group['leaders']}\n"
+                f"Имя: {data.name}\nTelegram: {data.telegram or '—'}\n"
+                f"Комментарий: {data.comment or '—'}"
+            )
             await bot.send_message(admin, text)
-            await bot.session.close()
-        except Exception:
-            pass
+        except Exception as exc:
+            print(f"Не удалось отправить заявку администратору: {exc}")
+
     return {"ok": True}
+
 
 @app.get("/health")
 def health():
-    return {"ok": True}
+    return {"ok": True, "bot": bool(bot and polling_task and not polling_task.done())}
