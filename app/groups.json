@@ -9,7 +9,7 @@
     "age": "45",
     "members": 5,
     "pets": "нет",
-    "image": "img_2949.png"
+    "image": "img_2955.png"
   },
   {
     "id": "zavet-2",
@@ -45,7 +45,7 @@
     "age": "20–25",
     "members": 10,
     "pets": "нет",
-    "image": "img_2956.png"
+    "image": "img_2957.png"
   },
   {
     "id": "316",
@@ -57,7 +57,7 @@
     "age": "25",
     "members": 11,
     "pets": "нет",
-    "image": "img_2951.png"
+    "image": "img_2954.png"
   },
   {
     "id": "vefil",
@@ -69,7 +69,7 @@
     "age": "40+",
     "members": 8,
     "pets": "кот",
-    "image": "img_2950.png"
+    "image": "img_2949.png"
   },
   {
     "id": "preobrazhenie",
@@ -117,7 +117,7 @@
     "age": "40–50",
     "members": 11,
     "pets": "нет",
-    "image": "img_2958.png"
+    "image": "img_2956.png"
   },
   {
     "id": "vifezda",
@@ -129,7 +129,7 @@
     "age": "40+",
     "members": 12,
     "pets": "коты",
-    "image": "img_2948.png"
+    "image": "img_2947.png"
   },
   {
     "id": "penuel",
@@ -141,19 +141,19 @@
     "age": "45",
     "members": 12,
     "pets": "кот",
-    "image": "img_2949.png"
+    "image": "img_2948.png"
   },
   {
     "id": "vifleem",
     "name": "Вифлеем",
-    "leaders": "Тахир Мусин и Валентин Быков",
+    "leaders": "Тахир и Галина Мусины",
     "district": "Октябрьский",
     "address": "Ижевск, 9-я Подлесная, 44",
     "time": "18:30",
     "age": "46",
     "members": 16,
     "pets": "кошка",
-    "image": "img_2948.png"
+    "image": "img_2951.png"
   },
   {
     "id": "vifleemskaya-zvezda",
@@ -165,7 +165,7 @@
     "age": "27–60",
     "members": 16,
     "pets": "нет",
-    "image": "img_2955.png"
+    "image": "img_2958.png"
   },
   {
     "id": "skiniya",
@@ -201,7 +201,7 @@
     "age": "25–40",
     "members": 14,
     "pets": "собака",
-    "image": "img_2954.png"
+    "image": "img_2950.png"
   },
   {
     "id": "emmanuil",
@@ -213,7 +213,7 @@
     "age": "23",
     "members": 16,
     "pets": "кот и собака",
-    "image": "img_2952.png"
+    "image": "img_2953.png"
   },
   {
     "id": "deyanie",
