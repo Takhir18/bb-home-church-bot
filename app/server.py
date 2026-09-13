@@ -1,8 +1,8 @@
-import os, json, sqlite3, asyncio
+import os, json, sqlite3, asyncio, base64
 from pathlib import Path
 from contextlib import suppress
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, Response, HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 from aiogram import Bot, Dispatcher
@@ -101,7 +101,29 @@ async def shutdown_bot():
 
 @app.get("/")
 def index():
-    return FileResponse(BASE / "static" / "index.html")
+    html = (BASE / "static" / "index.html").read_text(encoding="utf-8")
+    html = html.replace(
+        '<img id="aboutHeroImg" alt="Что такое домашняя церковь">',
+        '<img id="aboutHeroImg" src="/about-hero.jpg?v=2" alt="Что такое домашняя церковь">'
+    )
+    old_loader = "fetch('/static/assets/about_hero_exact.b64?v=1',{cache:'no-store'}).then(r=>r.text()).then(s=>{const el=document.getElementById('aboutHeroImg');if(el)el.src='data:image/jpeg;base64,'+s.trim()});"
+    html = html.replace(old_loader, "")
+    return HTMLResponse(html, headers={"Cache-Control": "no-store, max-age=0"})
+
+
+@app.get("/about-hero.jpg")
+def about_hero():
+    b64_path = BASE / "static" / "assets" / "about_hero_exact.b64"
+    try:
+        encoded = "".join(b64_path.read_text(encoding="utf-8").split())
+        image = base64.b64decode(encoded, validate=True)
+    except Exception as exc:
+        raise HTTPException(500, f"About hero image error: {exc}")
+    return Response(
+        content=image,
+        media_type="image/jpeg",
+        headers={"Cache-Control": "public, max-age=3600"},
+    )
 
 
 @app.get("/api/groups")
