@@ -158,6 +158,20 @@ def index():
     )
     old_loader = "fetch('/static/assets/about_hero_exact.b64?v=1',{cache:'no-store'}).then(r=>r.text()).then(s=>{const el=document.getElementById('aboutHeroImg');if(el)el.src='data:image/jpeg;base64,'+s.trim()});"
     html = html.replace(old_loader, "")
+
+    icon_style = """<style id=\"aboutIconStyle\">#about .value .i{width:54px;height:54px;border-radius:50%;background:linear-gradient(145deg,#1b120d,#120d0a);border:1px solid #6f3215;display:grid;place-items:center;flex:none;color:var(--orange);box-shadow:inset 0 0 0 1px rgba(255,90,10,.05),0 6px 18px rgba(255,90,10,.08)}#about .value .i svg{width:28px;height:28px;display:block;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}</style>"""
+    html = html.replace("</head>", icon_style + "</head>")
+
+    icons = {
+        "🍽": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 3v7M4.5 3v5.5A2.5 2.5 0 0 0 7 11v10M9.5 3v5.5A2.5 2.5 0 0 1 7 11"/><path d="M15 3v8c0 1.7 1.3 3 3 3V3M18 14v7"/></svg>',
+        "🙏": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 21c-1.5-3-2.5-5.2-2.5-7.2V8.5c0-1 .8-1.8 1.8-1.8.9 0 1.7.7 1.8 1.6V4.8c0-1 .8-1.8 1.8-1.8s1.8.8 1.8 1.8v3.4c.2-.8.9-1.4 1.8-1.4 1 0 1.8.8 1.8 1.8v4.8c0 3-1.2 5.4-3.2 7.6"/><path d="M7 13.5 4.8 11c-.6-.7-.5-1.8.2-2.4.7-.6 1.8-.5 2.4.2L10 12"/></svg>',
+        "📖": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 5.5c3-1 5.5-.5 8 1.5v12c-2.5-2-5-2.5-8-1.5zM20.5 5.5c-3-1-5.5-.5-8 1.5v12c2.5-2 5-2.5 8-1.5z"/></svg>',
+        "❤️": '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.8 4.8a5.4 5.4 0 0 0-7.7 0L12 6l-1.1-1.2a5.4 5.4 0 1 0-7.7 7.6L12 21l8.8-8.6a5.4 5.4 0 0 0 0-7.6z"/></svg>',
+        "🌍": '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3.5 12h17M12 3c2.2 2.4 3.3 5.4 3.3 9S14.2 18.6 12 21c-2.2-2.4-3.3-5.4-3.3-9S9.8 5.4 12 3z"/></svg>'
+    }
+    for emoji, svg in icons.items():
+        html = html.replace(f'<div class="i">{emoji}</div>', f'<div class="i">{svg}</div>')
+
     old_start = "const tg=window.Telegram?.WebApp;if(tg){tg.ready();tg.expand();}let groups=[],current=null,filter='all',stack=['home'];"
     new_start = "const tg=window.Telegram?.WebApp;const initData=tg?.initData||'';if(tg){tg.ready();tg.expand();}const authHeaders={'X-Telegram-Init-Data':initData};let groups=[],current=null,filter='all',stack=['home'];if(!initData){document.querySelector('.app').innerHTML='<div style=\"padding:60px 24px;text-align:center\"><h2>Доступ только через Telegram</h2><p style=\"color:#aaa;line-height:1.5\">Откройте приложение по пригласительной ссылке или QR-коду.</p></div>';throw new Error('Telegram access required');}"
     html = html.replace(old_start, new_start)
