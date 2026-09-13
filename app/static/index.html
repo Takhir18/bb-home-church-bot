@@ -7,7 +7,7 @@
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="/static/css/style.css">
 </head>
 
 <body>
@@ -23,7 +23,9 @@
 <b>Божья Благодать</b>
 <small>Домашние церкви · Ижевск</small>
 </div>
+
 </header>
+
 
 <section id="home" class="screen active">
 
@@ -50,12 +52,15 @@
 
 </div>
 
+
 <div class="pad">
+
 <div class="notice">
 Домашняя церковь — не просто малая группа,
 а духовная семья, где каждый человек растёт,
 служит и участвует в жизни церкви.
 </div>
+
 </div>
 
 </section>
@@ -69,6 +74,7 @@
 <img id="aboutHeroImg" alt="Что такое домашняя церковь">
 </div>
 
+
 <div class="values-grid">
 
 <div class="value">
@@ -79,6 +85,7 @@
 </div>
 </div>
 
+
 <div class="value">
 <div class="i">🙏</div>
 <div>
@@ -86,6 +93,7 @@
 <span>Молитвы и псалмы — неотъемлемая часть жизни верующих.</span>
 </div>
 </div>
+
 
 <div class="value">
 <div class="i">📖</div>
@@ -102,6 +110,7 @@
 </div>
 </div>
 
+
 <div class="value">
 <div class="i">🌍</div>
 <div>
@@ -111,6 +120,7 @@
 </div>
 
 </div>
+
 
 <button class="btn primary" onclick="show('groups')">
 Найти свою домашнюю церковь →
@@ -129,11 +139,14 @@
 Домашние церкви
 </h1>
 
+
 <input 
 id="search"
 class="search"
 placeholder="Название, район или лидер…"
 oninput="renderGroups()">
+
+
 
 <div class="chips">
 
@@ -159,6 +172,7 @@ oninput="renderGroups()">
 
 </div>
 
+
 <div id="count" class="count"></div>
 
 <div id="groupList"></div>
@@ -168,9 +182,11 @@ oninput="renderGroups()">
 </section>
 
 
+
 <section id="detail" class="screen detail">
 
 <div id="detailPic" class="detailpic"></div>
+
 
 <div class="pad">
 
@@ -179,6 +195,7 @@ oninput="renderGroups()">
 <div class="leaders" id="dLeaders"></div>
 
 <div id="dBadges" class="badges"></div>
+
 
 <p class="lead" style="font-size:14px">
 
@@ -189,6 +206,7 @@ oninput="renderGroups()">
 
 </p>
 
+
 <div class="notice">
 
 В целях приватности на общей странице показывается район.
@@ -197,17 +215,21 @@ oninput="renderGroups()">
 
 </div>
 
+
 <button class="btn primary" onclick="show('visit')">
 🔥 Хочу прийти
 </button>
+
 
 <button class="btn outline" onclick="openRoute()">
 ➤ Построить маршрут
 </button>
 
+
 </div>
 
 </section>
+
 
 
 <section id="visit" class="screen">
@@ -218,9 +240,12 @@ oninput="renderGroups()">
 Хочу прийти
 </h1>
 
+
 <p class="lead" id="visitGroup"></p>
 
+
 <form class="form" onsubmit="sendApp(event)">
+
 
 <label>
 Как тебя зовут?
@@ -228,11 +253,13 @@ oninput="renderGroups()">
 
 <input id="name" required placeholder="Например, Александр">
 
+
 <label>
 Telegram
 </label>
 
 <input id="telegram" placeholder="@username">
+
 
 <label>
 Комментарий
@@ -240,9 +267,11 @@ Telegram
 
 <textarea id="comment" placeholder="Например, хочу прийти на ближайшую встречу"></textarea>
 
+
 <button class="btn primary" type="submit">
 Отправить заявку
 </button>
+
 
 </form>
 <p class="legal">
@@ -256,6 +285,7 @@ Telegram
 </section>
 
 
+
 <section id="success" class="screen">
 
 <div class="success">
@@ -264,25 +294,31 @@ Telegram
 ✓
 </div>
 
+
 <h1>
 Заявка отправлена!
 </h1>
+
 
 <p class="lead">
 Спасибо! С вами свяжутся
 по поводу ближайшей встречи.
 </p>
 
+
 <button class="btn secondary" onclick="show('groups')">
 Вернуться к группам
 </button>
+
 
 </div>
 
 </section>
 
 
+
 <nav>
+
 
 <div class="nav active"
 data-id="home"
@@ -292,6 +328,7 @@ onclick="show('home')">
 Главная
 
 </div>
+
 
 
 <div class="nav"
@@ -304,6 +341,7 @@ onclick="show('groups')">
 </div>
 
 
+
 <div class="nav"
 data-id="about"
 onclick="show('about')">
@@ -313,13 +351,17 @@ onclick="show('about')">
 
 </div>
 
+
 </nav>
+
 
 
 </div>
 
 
-<script src="js/app.js"></script>
+
+<script src="/static/js/app.js"></script>
+
 
 </body>
 </html>
