@@ -193,3 +193,209 @@ body{
  font-size:13px;
  line-height:1.4;
 }
+
+.search{
+ width:100%;
+ padding:14px;
+ border-radius:14px;
+ border:1px solid #333;
+ background:#121212;
+ color:white;
+ margin-bottom:12px;
+ font-size:15px;
+}
+
+
+.filters{
+ display:flex;
+ gap:8px;
+ overflow:auto;
+ margin-bottom:15px;
+}
+
+
+.filter{
+ background:#171717;
+ color:#ddd;
+ border:1px solid #333;
+ border-radius:20px;
+ padding:8px 14px;
+}
+
+
+
+.church-card{
+ background:#141414;
+ border:1px solid #292929;
+ border-radius:18px;
+ overflow:hidden;
+ margin-bottom:15px;
+}
+
+
+.church-photo{
+ height:180px;
+ background:
+ linear-gradient(#222,#111);
+}
+
+
+.church-photo.second{
+ background:
+ linear-gradient(120deg,#3a1808,#111);
+}
+
+
+
+.church-body{
+ padding:15px;
+}
+
+
+.church-body h3{
+ margin:0 0 10px;
+ font-size:22px;
+}
+
+
+.church-body p{
+ color:#ccc;
+ margin:6px 0;
+}
+
+
+.tags{
+ display:flex;
+ gap:7px;
+ margin-top:12px;
+}
+
+
+.tags span{
+ background:#222;
+ border:1px solid #333;
+ padding:6px 10px;
+ border-radius:10px;
+ font-size:12px;
+}
+
+
+
+.detail-photo{
+ height:260px;
+ border-radius:18px;
+ background:#171717;
+ margin-bottom:15px;
+}
+
+
+
+.form{
+ display:flex;
+ flex-direction:column;
+ gap:12px;
+}
+
+
+.form input,
+.form textarea{
+
+ width:100%;
+ padding:14px;
+
+ background:#121212;
+ color:white;
+
+ border:1px solid #333;
+ border-radius:12px;
+
+ font-size:15px;
+
+}
+
+
+.form textarea{
+ height:100px;
+ resize:none;
+}
+
+
+
+.success{
+ text-align:center;
+ padding:60px 20px;
+}
+
+
+.check{
+ width:80px;
+ height:80px;
+
+ margin:auto;
+
+ border:3px solid var(--orange);
+ border-radius:50%;
+
+ display:flex;
+ align-items:center;
+ justify-content:center;
+
+ font-size:45px;
+ color:var(--orange);
+}
+
+
+
+.bottom-nav{
+
+ position:fixed;
+ bottom:0;
+ left:50%;
+
+ transform:translateX(-50%);
+
+ max-width:500px;
+ width:100%;
+
+ height:70px;
+
+ background:#090909ee;
+
+ border-top:1px solid #222;
+
+ display:flex;
+
+}
+
+
+.bottom-nav button{
+
+ flex:1;
+
+ background:none;
+ border:0;
+
+ color:#aaa;
+
+ font-size:12px;
+
+}
+
+
+.bottom-nav button:hover{
+ color:var(--orange);
+}
+
+
+
+@media(max-width:380px){
+
+.hero h1{
+ font-size:36px;
+}
+
+.features{
+ grid-template-columns:1fr;
+}
+
+}
