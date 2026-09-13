@@ -183,7 +183,7 @@ def index():
     html = (BASE / "static" / "index.html").read_text(encoding="utf-8")
     html = html.replace(
         '<img id="aboutHeroImg" alt="Что такое домашняя церковь">',
-        '<img id="aboutHeroImg" src="/about-hero.jpg?v=3" alt="Что такое домашняя церковь">'
+        '<img id="aboutHeroImg" src="/static/assets/about_hero.jpg?v=4" alt="Что такое домашняя церковь">'
     )
     old_loader = "fetch('/static/assets/about_hero_exact.b64?v=1',{cache:'no-store'}).then(r=>r.text()).then(s=>{const el=document.getElementById('aboutHeroImg');if(el)el.src='data:image/jpeg;base64,'+s.trim()});"
     html = html.replace(old_loader, "")
