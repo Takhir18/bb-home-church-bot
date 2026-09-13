@@ -1,119 +1,154 @@
-const tg=window.Telegram?.WebApp;
-if(tg){tg.ready();tg.expand();}
+let currentChurch = "";
 
-let groups=[],current=null,filter='all',stack=['home'];
 
-fetch('/static/assets/about_hero_exact.b64?v=1',{cache:'no-store'})
-.then(r=>r.text())
-.then(s=>{
- const el=document.getElementById('aboutHeroImg');
- if(el)el.src='data:image/jpeg;base64,'+s.trim()
+function openPage(id){
+
+    document.querySelectorAll(".page")
+    .forEach(page=>{
+        page.classList.remove("active");
+    });
+
+
+    let page=document.getElementById(id);
+
+    if(page){
+        page.classList.add("active");
+    }
+
+
+    window.scrollTo(0,0);
+
+}
+
+
+
+function openChurch(name){
+
+    currentChurch=name;
+
+    let title=document.getElementById("churchName");
+
+    if(title){
+        title.innerText=name;
+    }
+
+
+    let visit=document.getElementById("visitChurch");
+
+    if(visit){
+        visit.innerText=
+        "Вы выбрали домашнюю церковь: "+name;
+    }
+
+
+    openPage("detail");
+
+}
+
+
+
+function renderChurches(){
+
+    let search=document
+    .getElementById("search")
+    .value
+    .toLowerCase();
+
+
+    document
+    .querySelectorAll(".church-card")
+    .forEach(card=>{
+
+
+        let text=
+        card.innerText.toLowerCase();
+
+
+        if(text.includes(search)){
+            card.style.display="block";
+        }
+
+        else{
+            card.style.display="none";
+        }
+
+
+    });
+
+}
+
+
+
+
+function sendRequest(event){
+
+    event.preventDefault();
+
+
+    let name=
+    document.getElementById("name").value;
+
+
+    let telegram=
+    document.getElementById("telegram").value;
+
+
+    let message=
+    document.getElementById("message").value;
+
+
+
+    let data={
+
+        church:currentChurch,
+
+        name:name,
+
+        telegram:telegram,
+
+        message:message
+
+    };
+
+
+
+    console.log("Заявка:",data);
+
+
+
+    // Telegram Web App
+
+    if(window.Telegram &&
+       Telegram.WebApp){
+
+
+        Telegram.WebApp
+        .sendData(
+            JSON.stringify(data)
+        );
+
+    }
+
+
+
+    openPage("success");
+
+
+}
+
+
+
+document.addEventListener(
+"DOMContentLoaded",
+()=>{
+
+
+    if(window.Telegram &&
+       Telegram.WebApp){
+
+        Telegram.WebApp.ready();
+
+    }
+
+
 });
-
-fetch('/api/groups',{cache:'no-store'})
-.then(r=>r.json())
-.then(x=>{
- groups=x;
- renderGroups()
-});
-
-function show(id){
- document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
- document.getElementById(id).classList.add('active');
- if(stack.at(-1)!==id)stack.push(id);
- document.getElementById('back').style.visibility=id==='home'?'hidden':'visible';
- document.querySelectorAll('.nav').forEach(n=>n.classList.toggle('active',n.dataset.id===id));
- scrollTo(0,0)
-}
-
-function goBack(){
- if(stack.length>1){
-  stack.pop();
-  const id=stack.pop();
-  show(id)
- }
-}
-
-function setFilter(f,el){
- filter=f;
- document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));
- el.classList.add('active');
- renderGroups()
-}
-function renderGroups(){
- const list=document.getElementById('groupList');
- const count=document.getElementById('count');
- if(!list)return;
-
- let q=(document.getElementById('search')?.value||'').toLowerCase();
-
- let arr=groups.filter(g=>{
-  let text=JSON.stringify(g).toLowerCase();
-  if(q && !text.includes(q))return false;
-
-  if(filter==='young' && !g.young)return false;
-  if(filter==='noPets' && g.pets)return false;
-  if(filter==='ust' && !text.includes('уст'))return false;
-  if(filter==='perv' && !text.includes('перв'))return false;
-
-  return true;
- });
-
- count.innerText=`Найдено: ${arr.length}`;
-
- list.innerHTML=arr.map((g,i)=>`
- <div class="card" onclick="openGroup(${i})">
-   <div class="pic" style="background-image:url('${g.image||''}')"></div>
-   <div class="cardbody">
-     <h3>${g.name||'Домашняя церковь'}</h3>
-     <div class="meta">
-       ${g.area||''}<br>
-       ${g.leader||''}
-     </div>
-   </div>
- </div>
- `).join('');
-}
-
-
-function openGroup(i){
- current=groups[i];
-
- document.getElementById('dName').innerText=current.name||'';
- document.getElementById('dLeaders').innerText=current.leader||'';
-
- const pic=document.getElementById('detailPic');
- if(pic)pic.style.backgroundImage=`url('${current.image||''}')`;
-
- show('detail');
-}
-
-
-function openRoute(){
- if(!current)return;
-
- if(current.route){
-  window.open(current.route,'_blank');
- }else{
-  alert('Маршрут пока не указан');
- }
-}
-
-
-function sendApp(e){
- e.preventDefault();
-
- let data={
-  name:document.getElementById('name').value,
-  telegram:document.getElementById('telegram').value,
-  comment:document.getElementById('comment').value,
-  group:current?.name||''
- };
-
- fetch('/api/visit',{
-  method:'POST',
-  headers:{'Content-Type':'application/json'},
-  body:JSON.stringify(data)
- })
- .then(()=>show('success'));
-}
