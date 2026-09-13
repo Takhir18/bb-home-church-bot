@@ -1,1 +1,0 @@
-JPEG source verified locally before upload. Local Git blob SHA for about_420.jpg: d8460cb36c2aae471befbaa1c64e431d768e297d
