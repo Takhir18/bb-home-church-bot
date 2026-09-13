@@ -1,9 +1,10 @@
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 
-<title>Домашние церкви — Божья Благодать</title>
+<title>Божья Благодать — Домашние церкви</title>
 
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
@@ -14,168 +15,259 @@
 
 <div class="app">
 
-<header>
-<span class="back" id="back" onclick="goBack()">‹</span>
-
-<img class="brand-logo" src="/static/assets/logo.jpg">
-
-<div class="brand">
-<b>Божья Благодать</b>
-<small>Домашние церкви · Ижевск</small>
-</div>
-
+<header class="header">
+    <img src="/static/assets/logo.jpg" class="logo">
+    <div class="brand">
+        <strong>Божья Благодать</strong>
+        <span>Домашние церкви · Ижевск</span>
+    </div>
 </header>
 
 
-<section id="home" class="screen active">
+<main>
+
+
+<section id="home" class="page active">
 
 <div class="hero">
 
 <h1>
-Ближе<br>
-к Богу.<br>
-<span class="o">Ближе к людям.</span>
+Ближе к Богу.<br>
+<span>Ближе к людям.</span>
 </h1>
 
-<p class="lead">
-Найди домашнюю церковь, где можно расти духовно,
-строить отношения и вместе служить Богу.
+<p>
+Найди домашнюю церковь,
+где можно расти духовно,
+строить отношения
+и вместе служить Богу.
 </p>
 
-<button class="btn primary" onclick="show('groups')">
+
+<button class="btn primary" onclick="openPage('churches')">
 🔥 Найти домашнюю церковь
 </button>
 
-<button class="btn secondary" onclick="show('about')">
+
+<button class="btn dark" onclick="openPage('about')">
 Что такое домашняя церковь?
 </button>
 
-</div>
-
-
-<div class="pad">
-
-<div class="notice">
-Домашняя церковь — не просто малая группа,
-а духовная семья, где каждый человек растёт,
-служит и участвует в жизни церкви.
-</div>
 
 </div>
+
+
+<div class="info-card">
+
+<h3>Домашняя церковь</h3>
+
+<p>
+Это духовная семья, где люди встречаются,
+молятся, изучают Библию,
+поддерживают друг друга
+и растут вместе.
+</p>
+
+</div>
+
 
 </section>
 
 
-<section id="about" class="screen">
 
-<div class="pad">
+<section id="about" class="page">
 
-<div class="aboutHero">
-<img id="aboutHeroImg" alt="Что такое домашняя церковь">
+<div class="section">
+
+<h2>
+Что такое домашняя церковь?
+</h2>
+
+
+<div class="about-image">
+<img src="/static/assets/about.jpg">
 </div>
 
 
-<div class="values-grid">
+<div class="features">
 
-<div class="value">
-<div class="i">🍽</div>
-<div>
+
+<div class="feature">
+<div>🍽</div>
 <b>Гостеприимство</b>
-<span>Совместный ужин — приятное событие и пространство для отношений.</span>
-</div>
-</div>
-
-
-<div class="value">
-<div class="i">🙏</div>
-<div>
-<b>Поклонение Богу</b>
-<span>Молитвы и псалмы — неотъемлемая часть жизни верующих.</span>
-</div>
+<p>
+Встречаемся дома,
+общаемся и строим отношения.
+</p>
 </div>
 
 
-<div class="value">
-<div class="i">📖</div>
-<div>
+<div class="feature">
+<div>🙏</div>
+<b>Поклонение</b>
+<p>
+Молитва и поклонение Богу.
+</p>
+</div>
+
+
+<div class="feature">
+<div>📖</div>
 <b>Ученичество</b>
-<span>Учимся применять Божьи принципы и начинаем служить в призвании.</span>
-</div>
-</div>
-<div class="value">
-<div class="i">❤️</div>
-<div>
-<b>Дружеское общение</b>
-<span>Делимся душой, поддерживаем и оказываем помощь друг другу.</span>
-</div>
+<p>
+Изучаем Писание
+и применяем его.
+</p>
 </div>
 
 
-<div class="value">
-<div class="i">🌍</div>
-<div>
-<b>Евангелизация</b>
-<span>Мы открыты для новых людей и хотим знакомить их с Евангелием.</span>
+<div class="feature">
+<div>❤️</div>
+<b>Общение</b>
+<p>
+Поддерживаем друг друга.
+</p>
 </div>
+
+
+<div class="feature">
+<div>🌍</div>
+<b>Евангелие</b>
+<p>
+Открыты для новых людей.
+</p>
 </div>
+
 
 </div>
 
 
-<button class="btn primary" onclick="show('groups')">
-Найти свою домашнюю церковь →
+<button class="btn primary" onclick="openPage('churches')">
+Найти свою церковь →
 </button>
 
+
 </div>
 
 </section>
 
+<section id="churches" class="page">
 
-<section id="groups" class="screen">
+<div class="section">
 
-<div class="pad">
-
-<h1 class="section-title">
+<h2>
 Домашние церкви
-</h1>
+</h2>
 
 
 <input 
-id="search"
 class="search"
-placeholder="Название, район или лидер…"
-oninput="renderGroups()">
+id="search"
+placeholder="Поиск по названию или району..."
+oninput="renderChurches()">
 
 
 
-<div class="chips">
+<div class="filters">
 
-<button class="chip active" onclick="setFilter('all',this)">
+<button class="filter active">
 Все
 </button>
 
-<button class="chip" onclick="setFilter('young',this)">
+<button class="filter">
 До 30
 </button>
 
-<button class="chip" onclick="setFilter('noPets',this)">
-Без животных
-</button>
-
-<button class="chip" onclick="setFilter('ust',this)">
+<button class="filter">
 Устиновский
 </button>
 
-<button class="chip" onclick="setFilter('perv',this)">
+<button class="filter">
 Первомайский
 </button>
 
 </div>
 
 
-<div id="count" class="count"></div>
 
-<div id="groupList"></div>
+<div id="churchList">
+
+
+<div class="church-card" onclick="openChurch('Семья')">
+
+<div class="church-photo"></div>
+
+<div class="church-body">
+
+<h3>
+Семья
+</h3>
+
+<p>
+📍 Устиновский район
+</p>
+
+<p>
+👤 Лидер: Александр
+</p>
+
+
+<div class="tags">
+
+<span>
+18+
+</span>
+
+<span>
+Среда
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="church-card" onclick="openChurch('Благодать')">
+
+<div class="church-photo second"></div>
+
+<div class="church-body">
+
+<h3>
+Благодать
+</h3>
+
+<p>
+📍 Первомайский район
+</p>
+
+<p>
+👤 Лидер: Михаил
+</p>
+
+
+<div class="tags">
+
+<span>
+Молодёжь
+</span>
+
+<span>
+Пятница
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
 
 </div>
 
@@ -183,45 +275,36 @@ oninput="renderGroups()">
 
 
 
-<section id="detail" class="screen detail">
+<section id="detail" class="page">
 
-<div id="detailPic" class="detailpic"></div>
+<div class="section">
 
-
-<div class="pad">
-
-<h1 id="dName"></h1>
-
-<div class="leaders" id="dLeaders"></div>
-
-<div id="dBadges" class="badges"></div>
+<div class="detail-photo"></div>
 
 
-<p class="lead" style="font-size:14px">
+<h2 id="churchName">
+Домашняя церковь
+</h2>
 
-Домашняя церковь открыта для новых людей.
-Здесь можно общаться, молиться,
-изучать Писание, поддерживать друг друга
-и духовно расти вместе.
 
+<div class="info-card">
+
+<p>
+Здесь можно познакомиться,
+пообщаться, молиться,
+изучать Библию
+и расти вместе.
 </p>
-
-
-<div class="notice">
-
-В целях приватности на общей странице показывается район.
-Точный адрес используется только для маршрута
-и организационной связи.
 
 </div>
 
 
-<button class="btn primary" onclick="show('visit')">
+<button class="btn primary" onclick="openPage('visit')">
 🔥 Хочу прийти
 </button>
 
 
-<button class="btn outline" onclick="openRoute()">
+<button class="btn dark">
 ➤ Построить маршрут
 </button>
 
@@ -230,42 +313,40 @@ oninput="renderGroups()">
 
 </section>
 
+<section id="visit" class="page">
 
+<div class="section">
 
-<section id="visit" class="screen">
-
-<div class="pad">
-
-<h1 class="section-title">
+<h2>
 Хочу прийти
-</h1>
+</h2>
 
 
-<p class="lead" id="visitGroup"></p>
+<p id="visitChurch">
+Выберите домашнюю церковь,
+и мы свяжемся с вами.
+</p>
 
 
-<form class="form" onsubmit="sendApp(event)">
+
+<form onsubmit="sendRequest(event)" class="form">
 
 
-<label>
-Как тебя зовут?
-</label>
-
-<input id="name" required placeholder="Например, Александр">
-
-
-<label>
-Telegram
-</label>
-
-<input id="telegram" placeholder="@username">
+<input 
+id="name"
+placeholder="Ваше имя"
+required>
 
 
-<label>
-Комментарий
-</label>
+<input 
+id="telegram"
+placeholder="Ваш Telegram">
 
-<textarea id="comment" placeholder="Например, хочу прийти на ближайшую встречу"></textarea>
+
+<textarea 
+id="message"
+placeholder="Комментарий">
+</textarea>
 
 
 <button class="btn primary" type="submit">
@@ -274,11 +355,7 @@ Telegram
 
 
 </form>
-<p class="legal">
-Заявка будет доступна служителям церкви
-для связи с вами по поводу посещения
-выбранной домашней церкви.
-</p>
+
 
 </div>
 
@@ -286,7 +363,7 @@ Telegram
 
 
 
-<section id="success" class="screen">
+<section id="success" class="page">
 
 <div class="success">
 
@@ -294,20 +371,18 @@ Telegram
 ✓
 </div>
 
+<h2>
+Спасибо!
+</h2>
 
-<h1>
-Заявка отправлена!
-</h1>
-
-
-<p class="lead">
-Спасибо! С вами свяжутся
-по поводу ближайшей встречи.
+<p>
+Заявка отправлена.
+С вами свяжутся.
 </p>
 
 
-<button class="btn secondary" onclick="show('groups')">
-Вернуться к группам
+<button class="btn dark" onclick="openPage('churches')">
+Вернуться
 </button>
 
 
@@ -316,40 +391,29 @@ Telegram
 </section>
 
 
+</main>
 
-<nav>
 
 
-<div class="nav active"
-data-id="home"
-onclick="show('home')">
+<nav class="bottom-nav">
 
-<b>⌂</b>
+
+<button onclick="openPage('home')">
+⌂<br>
 Главная
-
-</div>
-
+</button>
 
 
-<div class="nav"
-data-id="groups"
-onclick="show('groups')">
-
-<b>🔥</b>
+<button onclick="openPage('churches')">
+🔥<br>
 Церкви
-
-</div>
-
+</button>
 
 
-<div class="nav"
-data-id="about"
-onclick="show('about')">
-
-<b>♡</b>
+<button onclick="openPage('about')">
+♡<br>
 О формате
-
-</div>
+</button>
 
 
 </nav>
@@ -357,7 +421,6 @@ onclick="show('about')">
 
 
 </div>
-
 
 
 <script src="/static/js/app.js"></script>
